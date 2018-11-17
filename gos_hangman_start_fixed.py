@@ -141,7 +141,7 @@ while wrong_guesses < num_wrong_guesses_allowed and not done:
 
 # Check for a win or a loss now.
 if wrong_guesses == num_wrong_guesses_allowed:
-    print("Sorry, you lost!") 
+    print("Sorry, you lost!\nThe words was: "+word+".") 
 else:
     print_guesses(word, guesses) # Print the word and list of letters guessed.
     print("You won!") 
