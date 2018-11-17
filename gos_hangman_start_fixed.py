@@ -101,13 +101,24 @@ def print_guesses(word, guesses):
     print(output_string)
 # print_guesses
 
+########
+# get_new_guess
+#
+def get_new_guess(guesses):
+    r"""Get a new letter not already guessed. This function returns the lowercase first letter of the input."""
+    letter = input("What is your guess? ")
+    while (len(letter) != 0) and (letter[0].lower() in guesses):
+        letter = input("That letter was already guessed! What is your guess? ")
+    return letter[0].lower() # return the single lowercase letter
+# get_new_guess
+
 
 #
 # Code execution starts here
 #
 # Get the player's name and print greeting.
 name = input("What is your name? ")
-print("Hello, " + name + "! Time to play hangman!")
+print("Hello, " + name.title() + "! Time to play hangman!")
 
 # Pick a word from the words list using a random index between 0 and length of the list -1
 word = words[random.randint(0, len(words) - 1)]
@@ -123,7 +134,13 @@ while wrong_guesses < num_wrong_guesses_allowed and not done:
 
     print_guesses(word, guesses)
 
-    guess = input("What is your guess? ")
+#    guess = input("What is your guess? ")  # Original code that doesn't check for lowercase, more than one letter or a letter already guessed.
+    guess = get_new_guess(guesses)  # Get a new letter not already guessed.
+
+    # If this letter has already been guessed then get another guess that has not been guessed
+    while guess in guesses:
+        print("You have already guessed that latter, try again!\n", end='')
+        guess = input("What is your guess? ")
 
     # Process the letter which was just guessed.
     if guess in word:
@@ -141,7 +158,8 @@ while wrong_guesses < num_wrong_guesses_allowed and not done:
 
 # Check for a win or a loss now.
 if wrong_guesses == num_wrong_guesses_allowed:
-    print("Sorry, you lost!\nThe words was: "+word+".") 
+    draw_hangman(wrong_guesses) # Draw the hangman with all parts since the final guess was wrong.
+    print("Sorry, you lost!\nThe words was: "+word+".")
 else:
     print_guesses(word, guesses) # Print the word and list of letters guessed.
     print("You won!") 
